@@ -19,9 +19,10 @@ promise
   .finally(() => console.log("Promise was finished!"));
 
 
-async function getPromise() {
+async function getPromise(value) {
   try {
-    const result = await promise;
+    console.log(await value);
+    // const result = await value;
   } catch (error) {
     console.error(error);
   } finally {
@@ -29,4 +30,4 @@ async function getPromise() {
   }
 }
 
-getPromise();
+getPromise(promise);
