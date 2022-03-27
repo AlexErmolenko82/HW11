@@ -26,6 +26,7 @@ const getJson = async (url, userName) => {
   }
 }
 
+
 let url = "https://jsonplaceholder.typicode.com/users";
 let userName = "Johns Group";
 getJson(url, userName);
