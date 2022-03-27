@@ -1,33 +1,31 @@
 ﻿"use strict"
-// Создать новый Promise, который будет длится 5 секунд (используем setTimeout) и выполнять следующие действия:
-// при успешном завершение (fulfilled) - должен вывести фразу "done"
-// при ошибке (rejected) - вывести текст ошибки в консоль
-// при любом результате вывести текст - "Promise was finished!"
-// Обработку промиса необходима написать 2-мя способами:
-// .then / .catch
-// async / await + try...catch
+// Сделать запрос в API использую fetch
+// https://jsonplaceholder.typicode.com/users - необходимо получить список пользователей
+// После получения результата найти пользователя, который работает в компании "Johns Group"
+// Получение данных нужно реализовать одним из способов (.then/.catch) или (async/await)
 
-
-
-
-let promise = new Promise(function (resolve, reject) {
-  setTimeout(() => resolve("Promise done"), 5000);
-});
-promise
-  .then((result) => console.log(result))
-  .catch((error) => console.error(error))
-  .finally(() => console.log("Promise was finished!"));
-
-
-async function getPromise(value) {
+const getJson = async (url, userName) => {
   try {
-    console.log(await value);
-    // const result = await value;
-  } catch (error) {
-    console.error(error);
-  } finally {
-    console.log("Promise was finished!");
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw response;
+    } else {
+    const data = await response.json();
+    console.log(data);
+    let filteredData = data.filter(data => data.company.name === userName);
+    console.log(filteredData);
+    const {username, company: {name}} = filteredData[0];
+    console.log(`Company name: ${name}, username: ${username}`);
+    }
+  } catch (responseError) {
+    if (responseError.status === 404) {
+      console.log("URL not found");
+    } else {
+      console.error(error);
+    }
   }
 }
 
-getPromise(promise);
+let url = "https://jsonplaceholder.typicode.com/users";
+let userName = "Johns Group";
+getJson(url, userName);
